@@ -1,0 +1,38 @@
+<project name="springapp" basedir="." default="usage">
+    <property name="database.dir" value="db"/>
+    <property file="database.properties"/>
+    
+    <path id="master-classpath">
+		<fileset dir="lib">
+			<include name="*.jar"/>
+		</fileset>
+	</path>
+    
+	<target name="showProducts">
+        <echo message="SHOW PRODUCTS USING: ${db.driver} ${db.url}"/>
+		<sql driver="${db.driver}"
+             url="${db.url}"
+             userid="${db.user}"
+             password="${db.pw}"
+             onerror="continue"
+             print="true">  
+            <classpath refid="master-classpath"/>
+
+        SELECT * FROM products;
+
+        </sql> 
+    </target>
+    
+        <target name="createDatabase">
+        <echo message="CREATE DATABASE USING: ${db.driver} ${db.url}"/>
+        <sql driver="${db.driver}"
+             url="${db.url}"
+             userid="${db.user}"
+             password="${db.pw}"
+             onerror="continue"
+             src="springapp.sql">  
+            <classpath refid="master-classpath"/>
+        </sql> 
+    </target>
+    
+</project>
